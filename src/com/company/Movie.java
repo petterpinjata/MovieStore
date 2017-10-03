@@ -35,4 +35,13 @@ public class Movie {
     public void setRentDate(int rentDate) {
         this.rentDate = rentDate;
     }
+
+    public void returned() {
+        inStock = true;
+    }
+
+    public void rentedOut() {
+        inStock = false;
+    }
+
 }
