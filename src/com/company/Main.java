@@ -2,15 +2,18 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
 
     //Tools
     static Scanner keyboard = new Scanner(System.in);
+    Random random = new Random();
 
     //List
     static List<Movie> movieList = new ArrayList<Movie>();
+    static String MoiveTittles[] = {"Verdun","Lord of the Rings","Pokemon", "Forsen", "Batman", "Superman", "Lirik", "Zulu", "Annie Hall", "Final Destination", "Last Action Hero", "Cars", "The Breakfast Club", "Hancock", "The Texas Chainsaw Massacre", "Obsessed"};
 
     public static void main(String[] args) {
 
@@ -47,7 +50,7 @@ public class Main {
 
     public static void userInteraction(){
 
-        System.out.println("To show all available moives, type 's'" + "\n" + "To return movie, type 'r'" + "\n" + "To search for a movie, type 'f'" + "\n");
+        System.out.println("To show all available moives, type 's'" + "\n" + "To return movie, type 'r'" + "\n" + "To search for a movie, type 'f'" + "\n" + "To insert new movie, type 'i'" + "\n");
         String userCommand = keyboard.nextLine();
         if(userCommand.equals("s")){
             showAll();
@@ -55,14 +58,40 @@ public class Main {
             returnMovie();
         }else if(userCommand.equals("f")){
             searchMoive();
+        }else if(userCommand.equals("i")){
+            insertMoivieByUser();
         }else{
             System.out.println("Sorry, unknown command!");
             return;
         }
     }
 
+    public static void insertMoivieRNG() {
+        String  moviename = randomMovieName();
+        Movie m = new Movie(moviename, true, 0);
+        movieList.add(m);
+        System.out.println(m.getTitle() + " is now listed.");
+    }
 
-    private static void returnMovie() {
+    public static String randomMovieName() {
+        int idx = new Random().nextInt(MoiveTittles.length);
+        String name = MoiveTittles[idx];
+
+        return name;
+    }
+
+    public static void insertMoivieByUser() {
+        System.out.println("What is the title of the movie?");
+        String  moviename = "";
+        String userInput = keyboard.nextLine();
+        moviename = userInput;
+        Movie m = new Movie(moviename, true, 0);
+        movieList.add(m);
+        System.out.println(m.getTitle() + " is now listed.");
+    }
+
+
+    public static void returnMovie() {
         System.out.println("What is the title of the movie?");
         String userCommand = keyboard.nextLine();
         boolean movieFound = false;
@@ -83,7 +112,7 @@ public class Main {
 
     }
 
-    private static void showAll() {
+    public static void showAll() {
         System.out.println("All movies!");
         for(Movie movie : movieList) {
             if(movie.inStock){
@@ -95,7 +124,7 @@ public class Main {
         userInteraction();
     }
 
-    private static void searchMoive() {
+    public static void searchMoive() {
 
         System.out.println("Write down the tittel for the movie");
         String userCommand = keyboard.nextLine();
@@ -123,7 +152,7 @@ public class Main {
         }
     }
 
-    private static void rentMovie(Movie moive) {
+    public static void rentMovie(Movie moive) {
         moive.rentedOut();
         moive.setRentDate(20);
         System.out.println(moive.getTitle() + " is now rented. Must be returned within " + moive.getRentDate() + " days!");
